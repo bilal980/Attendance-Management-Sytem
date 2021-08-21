@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTH_USER_MODEL = 'account.MyUser'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fontawesome-free',
+    'account',
+    # 'fontawesome-free',
     
 ]
 
