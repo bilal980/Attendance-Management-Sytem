@@ -7,6 +7,7 @@ from account.manager import CustomUserManager
 class MyUser(AbstractUser):
     email = models.EmailField(verbose_name='Email', max_length=60, unique=True)
     is_admin = models.BooleanField(default=False)
+    phone=models.IntegerField(blank=True,null=True)
     picture = models.ImageField(upload_to='static/image/profile_pic/', null=True,blank=True)
     USERNAME_FIELD = 'email'
     username=None

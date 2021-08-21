@@ -1,10 +1,8 @@
-
-
 {% load static %}
+
 <link href="{% static 'css/signup.css'%}" rel="stylesheet" />
 
-
-{% block body %}
+{% block content %}
 <div class="page-content">
     <div class="form-v4-content">
         <div class="form-left">
@@ -22,7 +20,7 @@
 
         <div class="form-detail">
             <h2>REGISTERION FORM</h2>
-        <form action="/register/" onsubmit="check_validity()" method="post" id="register_form">
+        <form action="/register/" onsubmit="check_validity()"  enctype="multipart/form-data" method="post" id="register_form">
             {% csrf_token %}
 
             <label for="fname">Full Name</label>
@@ -44,7 +42,8 @@
                     <label for="pass2">Comfirm Password</label>
                     <input type="password" name="pass2" id="pass2" class="input-text" required />
                 </div>
-            </div>
+            </div><label for="picture_p">Picture</label>
+            <input type="file" class="form-control-file" name="img" id="picture_p">
             <span id="error" style="color: red; display: none;">Password Not Match!</span>
             <div class="form-row-last">
                 <input type="submit" id="submit" name="register" class="register" value="Register" />
@@ -54,7 +53,7 @@
     </div>
 </div>
 
-{% endblock body %}
+{% endblock content %}
 
 <!-- Jquery JS-->
 

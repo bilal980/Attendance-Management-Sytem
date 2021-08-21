@@ -4,6 +4,8 @@ from django.contrib.auth.signals import user_logged_in
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
+from account.models import MyUser
+
 def signin(request):
     if request.method=="POST":
         try:
@@ -34,4 +36,27 @@ def index(request):
 
 
 def register(request):
+    try:
+        if request.method=="POST":
+            fname = request.POST.get('fname')
+            email = request.POST.get('email')
+            number = request.POST.get('number')
+            pass1, pass2 = request.POST.get('pass1'), request.POST.get('pass2')
+            if pass1 != pass2:
+                messages.error(request,'Password Not Match!')
+                return redirect(reverse_lazy('signin'))
+            if MyUser.objects.filter(email=email).exists():
+                messages.error(request,"Email Already Taken!")
+                return redirect(reverse_lazy('register'))
+            
+            new_user=MyUser.objects.create_user(email=email,password=pass1,phone=number,first_name=fname)
+            new_user.save()
+            if request.FILES:
+                profile = request.FILES['img']
+                new_user.picture = profile
+                new_user.save()
+            messages.success(request,'Acount Created Successfully. Please Login')
+            return redirect(reverse_lazy('signin'))
+    except:
+        return render(request,'registration.html')
     return render(request,'registration.html')
