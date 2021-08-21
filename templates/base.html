@@ -24,7 +24,7 @@
     <!-- ionicons css -->
     <!-- <link rel="stylesheet" href="{%static 'css/ionicons.css' %}"> -->
     <!-- fontawesome css -->
-<link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/fontawesome.css' %}" rel="stylesheet" type="text/css">
 
 
     <!-- {% endcache head %} -->
@@ -79,6 +79,7 @@
                
                <!-- Main content -->
                 <div class="pb-3">
+                    {% include 'components/message.html' %}
                     {% block content %}
                     
                     {% endblock content %}
