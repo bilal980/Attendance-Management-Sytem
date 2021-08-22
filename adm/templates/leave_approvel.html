@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}AMS{% endblock title %}
+{% block content %}
+
+<div class="container-fluid ">
+    <div class="col-md-12 shadow bg-white rounded">
+        <br>
+
+        <h2 class="text-center">All Students Leaves</h2>
+        <div class="row" style="padding: 5px">
+            <div class="col-lg-4">
+                <input type="text" class="form-control name_search" placeholder="Search by Item Name ..."
+                    value="{{ search_value_name }}">
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary search">Search</button>
+            </div>
+        </div>
+        <hr>
+        <div class="content-panel table-responsive">
+            <table class="table table-striped table-bordered table-advance table-hover item-table">
+                <thead>
+                    <tr>
+                        <th class="text-center"> S.No</th>
+                        <th class="text-center"> Name</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center">Reason</th>
+                        <th class="text-center">Action</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="product-table-body text-center">
+
+                    {% if page_obj %}
+                    {% for stu in page_obj.object_list %}
+                    <tr>
+                        <td><a href="#">{{ forloop.counter}}</a></td>
+                        <td class="#">{{ stu.student.first_name }}</td>
+                        <td class="#">{{ stu.date }}</td>
+                        <td class="#">{{ stu.reason }}</td>
+                        <td class="#">{%if stu.approve == True %} Currently Approved {% else %} Not Approved {%endif%}</td>
+                        <td>
+
+                            <a href="{% url 'leave_approvel_response' pk=stu.id val=1 %}"><button class="btn btn-success btn-xs"
+                                    title="view attendance"><i class="fa fa-check"></i>Approved</button></a>
+                            <a href="{% url 'leave_approvel_response' pk=stu.id val=0 %}"><button
+                                    class="btn btn-danger btn-xs delete"><i class="fa fa-times"></i>Rejected</button></a>
+                            {% block include %}
+                            <a href=""></a>
+                            {% include 'components/delete_modal.html' with delete_link=q %}
+                            {% endblock include %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="8"> No Record Found</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <!-- for pagination -->
+            <nav aria-label="...">
+                <ul class="pagination justify-content-end">
+
+                    <li class="page-item ">
+                        <a {% if page_obj.has_previous %} href="?page={{page_obj.previous_page_number }}" {% else %}
+                            disable {% endif %}>
+                            <span class="page-link">Previous</span></a>
+                    </li>
+
+
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></li>
+                    {% endif %}
+                    <li class="page-item active"><a class="page-link "
+                            href="?page={{page_obj.number}}">{{page_obj.number}}</a></li>
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}</a></li>
+                    {% endif %}
+
+
+                    <li class="page-item">
+
+                        <a class="page-link" {% if page_obj.has_next %} href="?page={{page_obj.next_page_number}}" {%
+                            else %} disabled {% endif %}>Next</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $(".name_search").keyup(function () {
+            var value = $(this).val().toLowerCase();
+            $(".product-table-body tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+{% endblock scripts %}

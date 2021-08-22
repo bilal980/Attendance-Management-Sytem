@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.views.generic import UpdateView
 from django.contrib import messages
 from django.core.paginator import Paginator
-from students.models import Attendance
+from students.models import Attendance, Leave
 from account.models import MyUser
 from students.models import Attendance
 # Create your views here.
@@ -97,3 +97,31 @@ def delete_student(request, pk):
     except:
         messages.error(request, 'Error Occured')
     return redirect(request.META['HTTP_REFERER'])
+
+
+def leave_approvel(request):
+
+    all_leave=Leave.objects.all().order_by('-id')
+    p = Paginator(all_leave, 7)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    context = {'page_obj': page_obj}
+    return render(request, 'leave_approvel.html', context)
+
+def leave_approvel_response(request,pk,val):
+    appr=Leave.objects.get(id=pk)
+    if val==1:
+        appr.approve=True
+        appr.save()
+    else:
+        appr.approve=False
+        appr.save()
+    return redirect(request.META['HTTP_REFERER'])
+
+
+

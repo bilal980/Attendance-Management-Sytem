@@ -9,4 +9,6 @@ urlpatterns = [
     path('add/attendance/<int:pk>', views.add_attendance, name='add_attendance'),
     path('update/attendance/<int:pk>',views.update_attendance,name='update_attendance'),
     path('delete/attendance/<int:pk>',views.delete_attendance,name='delete_attendance'),
+    path('leave/approvel/', views.leave_approvel, name='leave_approvel'),
+    path('leave/approvel/<int:pk>/<int:val>', views.leave_approvel_response, name='leave_approvel_response'),
 ]
