@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse
 import datetime
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from students.models import Attendance, Leave
@@ -21,7 +22,6 @@ def attendace(request):
         save_att.save()
         return JsonResponse({'msg':'done'})
 
-
 def check_attendace(request):
     user=request.user   
     date=datetime.date.today()
@@ -34,7 +34,6 @@ def check_attendace(request):
         'att':'False'
     })
 
-
 def leave(request):
     if request.method=="POST":
         reason=request.POST.get('reason')
@@ -43,7 +42,6 @@ def leave(request):
         new_leave.save()
         return redirect(reverse_lazy('student_home'))
     return render(request,'leave_form.html')
-
 
 def attendance_table(request):
         
@@ -62,3 +60,22 @@ def attendance_table(request):
 
     return render(request,'attendance_table.html',context)
 
+
+def update_profile(request):
+    if request.method == 'POST':
+        try:
+            user = MyUser.objects.get(email=request.user)
+            if request.POST.get('email') is not None:
+                user.email = request.POST.get('email')
+                user.save()
+            
+            if request.FILES:
+                img = request.FILES['picture']
+                user.picture = img
+                user.save()
+            messages.success(request, 'Updated Successfully!')
+            return redirect(request.META['HTTP_REFERER'])
+        except:
+            messages.error(request, 'Some Error Occured!')
+            return redirect(request.META['HTTP_REFERER'])
+    return render(request, 'update_profile.html')
