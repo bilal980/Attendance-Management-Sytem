@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}
+Supplier
+{% endblock title %}
+{% block content %}
+{% include 'components/message.html' %}
+
+<div class="col-md-6 shadow bg-white rounded">
+
+    <br>
+    <div class="content-panel">
+
+        <h3 class="text-center"> Request Leave</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-ledger-form" action="" method="post" autocomplete="off">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        {% csrf_token %}
+                       
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason</label>
+                            <textarea name="reason" class="form-control" id="reason" rows="3" required></textarea>
+                        </div>
+                        <br>
+                        <label><strong>Leave Date</strong></label>
+                        <input type="date" class="form-control mobile" name="date" placeholder="Date" required><br>
+                        <button type="submit" id="save" class="btn btn-primary ledger-submit-btn" style="float: right"
+                            id="load">Request</button>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

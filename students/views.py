@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import JsonResponse
 import datetime
+from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
-from students.models import Attendance
+from students.models import Attendance, Leave
 # Create your views here.
 def student_home(request):
     return render(request,'student_home.html')
@@ -32,3 +33,18 @@ def check_attendace(request):
     })
 
 
+def leave(request):
+    if request.method=="POST":
+        reason=request.POST.get('reason')
+        date=request.POST.get('date')
+        new_leave=Leave.objects.create(date=date,reason=reason,student=request.user)
+        new_leave.save()
+        return redirect(reverse_lazy('student_home'))
+    return render(request,'leave_form.html')
+
+
+def attendance_table(request):
+    user=request.user
+    att=Attendance.objects.all()
+    context={'attendace':att}
+    return render(request,'attendance_table.html',context)
