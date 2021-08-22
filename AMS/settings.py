@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'account',
     'students',
     'adm',
-    # 'fontawesome-free',
+    'fontawesomefree'
     
 ]
 

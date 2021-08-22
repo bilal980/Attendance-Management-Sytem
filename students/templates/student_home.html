@@ -1,7 +1,86 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-    student
+<div class="container">
+    <div class="card-group">
+        <div class="card ml-2">
+            <img src="{% static 'image/attendance.png' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Mark Attendance</h5>
+                <p class="card-text">Enter the attendance of the today.</p>
+                <div id="attendance_div" class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="attendance">
+                    <label style="color: red;" id="attendance_label" class="custom-control-label" for="attendance">Absent</label>
+                </div>
+                <br>
+                <button id="mark_attendance" class="btn btn-primary">Mark Attendance</button>
+            </div>
+        </div>
+        <div class="card ml-2">
+            <img src="{% static 'image/register.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+        <div class="card ml-2">
+            <img src="{% static 'image/register.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This card has even longer content than the first to show that equal height action.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block scripts %}
+<script>
     
+    $(document).ready(function(){
+        $.get("{%url 'check_attendance'%}",function(data,status){
+            console.log(data['att'])
+            if (data['att']=='True'){
+                
+                $('#attendance_div').empty()
+                $('#attendance_div').append('<p id="attendance_div_p">Today Attendance is Marked</p>')
+                $('#attendance_div_p').css('color','blue')
+                $('#mark_attendance').attr({'disabled':'disabled'})
+            }
+        })
+    })
+
+    $('#attendance').click(function () {
+        if ($(this).prop("checked") == true) {
+            $('#attendance_label').text("Present. ")
+            $("#attendance_label").css("color", "green");
+        } else {
+            $('#attendance_label').text("Absent. ")
+            $("#attendance_label").css("color", "red");
+
+
+        }
+    })
+
+    $("#mark_attendance").click(function () {
+        var attendance = $('#attendance').prop("checked")
+        $.post("{% url 'attendance' %}",
+            {
+                'attendance': attendance,
+            },
+            function (data, status) {
+                console.log(data['msg'])
+                $('#attendance').remove()
+                $('#attendance_label').text("Attendance Taken...")
+            });
+    });
+</script>
+{% endblock scripts %}
