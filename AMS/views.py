@@ -5,6 +5,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from account.models import MyUser
+from django.core.cache import cache
 
 def signin(request):
     if request.method=="POST":
@@ -25,8 +26,10 @@ def signin(request):
     return render(request,'login.html')
 
 def signout(request):
+
     try:
         logout(request)
+        cache.clear()
         return redirect(reverse_lazy('signin'))
     except:
         return redirect(reverse_lazy('signin'))

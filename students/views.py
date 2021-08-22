@@ -60,7 +60,6 @@ def attendance_table(request):
 
     return render(request,'attendance_table.html',context)
 
-
 def update_profile(request):
     if request.method == 'POST':
         try:
@@ -79,3 +78,20 @@ def update_profile(request):
             messages.error(request, 'Some Error Occured!')
             return redirect(request.META['HTTP_REFERER'])
     return render(request, 'update_profile.html')
+
+
+def leave_table(request):
+    user = request.user
+    leaves = Leave.objects.all().filter(student=user).order_by('-id')
+    print(leaves)
+    p = Paginator(leaves,7)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)  
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    context = {'page_obj': page_obj, }
+    
+    return render(request, 'leave_table.html',context)

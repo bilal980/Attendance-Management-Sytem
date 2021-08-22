@@ -6,7 +6,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link ">
         <img src="{% static 'image/avatar3.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-        <span class="brand-text font-weight-light text-center">Anas Traders</span>
+        <span class="brand-text font-weight-light text-center">Attendance System</span>
     </a>
 
     <div id="sidebarmenu">
@@ -27,11 +27,7 @@
                 </div>
                 <div class="info">
 
-                    {% if request.user.staff %}
-                    <a href="" class="d-block"><strong>{{request.user.staff}}</strong></a>
-                    {% else %}
-                    <a href="" class="d-block"><strong>Admin</strong></a>
-                    {% endif %}
+                    <a href="" class="d-block"><strong>{{request.user.first_name}}</strong></a>
 
                 </div>
             </div>
@@ -46,99 +42,31 @@
                   
                     <!-- dashboard tab -->
                     <li class="nav-item">
-                        <a href=""
+                        <a href="{% url 'student_home' %}"
                         
                             class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-chart-line"></i>
+                            <i style="color: #00c0ef;" class="nav-icon fa fa-home"></i>
                             <p class="">
-                                Dashboard
+                                Home
                             </p>
                         </a>
                     </li>
 
                     <!-- sale tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-shopping-cart"></i>
-                            <p>Sales</p>
-
-                        </a>
-
-                    </li>
-
-                    <!-- customer tab -->
-                    <li class="nav-item" id='customer_sidebar'>
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-users"></i>
-                            <p>Customers</p>
-                        </a>
-
-                    </li>
-
-                    <!-- Ledger tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-users"></i>
-                            <p>Ledger</p>
-                        </a>
-
-                    </li>
-
-                    <!-- Purchase tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-money-bill"></i>
-                            <p>Purchase</p>
-                        </a>
-
-                    </li>
-                    <!-- product tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fas fa-cubes"></i>
-                            <p>Products</p>
-                        </a>
-                    </li>
-
-                    <!-- Suppliers tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link ">
-                            <i style="color: #00c0ef;" class="nav-icon fa fa-user-plus"></i>
-                            <p>Suppliers</p>
-                        </a>
-
-                    </li>
-
-                    <!-- expenses tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fa fa-money-check"></i>
-                            <p>Expenses</p>
-                        </a>
-
-                    </li>
-
-                    <!-- employes tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #dddddd;" class="nav-icon fa fa-user-plus"></i>
-                            <p>Employes</p>
-                        </a>
-                    </li>
-
-                    <!-- Reports tab -->
-                    <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i style="color: #00c0ef;" class="nav-icon fa fa-file-invoice"></i>
-                            <p>Reports</p>
-                        </a>
-                    </li>
+                   
 
                     <!-- setting tab -->
                     <li class="nav-item">
-                        <a href="" class="nav-link ">
+                        <a href="{% url 'update_profile' %}" class="nav-link ">
                             <i style="color: #00c0ef;" class="nav-icon fas fa-cog"></i>
                             <p>Setting</p>
+                        </a>
+                    </li>
+                    <!-- Leave tab -->
+                    <li class="nav-item">
+                        <a href="{% url 'leave_table' %}" class="nav-link ">
+                            <i style="color: #00c0ef;" class="nav-icon fas fa-door-open"></i>
+                            <p>Leave </p>
                         </a>
                     </li>
 
