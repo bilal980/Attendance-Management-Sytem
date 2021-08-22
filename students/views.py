@@ -1,7 +1,9 @@
+from account.models import MyUser
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 import datetime
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from students.models import Attendance, Leave
 # Create your views here.
@@ -44,7 +46,19 @@ def leave(request):
 
 
 def attendance_table(request):
-    user=request.user
-    att=Attendance.objects.all()
-    context={'attendace':att}
+        
+    att=Attendance.objects.all().filter(student=request.user)
+    p=Paginator(att,6)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)  # returns the desired page object
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = p.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = p.page(p.num_pages)
+    context={'page_obj':page_obj,}
+
     return render(request,'attendance_table.html',context)
+
