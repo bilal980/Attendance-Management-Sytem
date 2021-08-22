@@ -79,7 +79,6 @@ def update_profile(request):
             return redirect(request.META['HTTP_REFERER'])
     return render(request, 'update_profile.html')
 
-
 def leave_table(request):
     user = request.user
     leaves = Leave.objects.all().filter(student=user).order_by('-id')

@@ -13,27 +13,25 @@
                     <input type="checkbox" class="custom-control-input" id="attendance">
                     <label style="color: red;" id="attendance_label" class="custom-control-label" for="attendance">Absent</label>
                 </div>
-                <br>
-                <button id="mark_attendance" class="btn btn-primary">Mark Attendance</button>
             </div>
+            <button id="mark_attendance" class="btn btn-primary">Mark Attendance</button>
         </div>
         <div class="card ml-2">
             <img src="{% static 'image/exit.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">Leave  Request</h5>
                 <p class="card-text">For Leave Request From Admin.</p><br>
-                <a href="{% url 'leave' %}" class="btn btn-primary">Application</a>
             </div>
+            <a href="{% url 'leave' %}" class="btn btn-primary">Application</a>
         </div>
-        
         <div class="card ml-2">
             <img src="{% static 'image/report.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">View Progress</h5>
                 <p class="card-text">View Your Past Attendance Report.</p>
-                <a href="{% url 'attendance_table' %}" class="btn btn-primary">View</a>
-
             </div>
+            
+            <a href="{% url 'attendance_table' %}" class="btn btn-primary">View</a>
         </div>
     </div>
 </div>
@@ -76,8 +74,11 @@
             },
             function (data, status) {
                 console.log(data['msg'])
-                $('#attendance').remove()
-                $('#attendance_label').text("Attendance Taken...")
+               
+                $('#attendance_div').empty()
+                $('#attendance_div').append('<p id="attendance_div_p">Today Attendance  Marked</p>')
+                $('#attendance_div_p').css('color', 'blue')
+                $('#mark_attendance').attr({ 'disabled': 'disabled' })
             });
     });
 </script>
