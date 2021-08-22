@@ -13,7 +13,7 @@ class MyUserAdmin(UserAdmin):
         (None, {'fields': ('email','first_name' ,'password', 'date_joined', 'picture',)}),
 
         (_('Permissions'), {
-            'fields': ('is_active', 'is_admin', 'is_staff', 'is_superuser', 'groups', 'user_permissions',),
+            'fields': ('is_active', 'user_type', 'is_staff', 'is_superuser', 'groups', 'user_permissions',),
         }),
 
     )

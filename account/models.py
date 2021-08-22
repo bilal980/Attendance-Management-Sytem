@@ -5,8 +5,12 @@ from account.manager import CustomUserManager
 
 
 class MyUser(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'student'),
+        (2, 'admin'),
+    )
     email = models.EmailField(verbose_name='Email', max_length=60, unique=True)
-    is_admin = models.BooleanField(default=False)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES,default='1')
     phone=models.IntegerField(blank=True,null=True)
     picture = models.ImageField(upload_to='static/image/profile_pic/', null=True,blank=True)
     USERNAME_FIELD = 'email'
