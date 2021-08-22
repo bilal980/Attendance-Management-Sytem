@@ -1,7 +1,7 @@
 from account.models import MyUser
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
-import datetime
+from django.utils import timezone
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -17,11 +17,12 @@ def attendace(request):
         att=False
         if request.POST.get('attendance') == 'true':
             att=True
-        save_att = Attendance.objects.create(student=request.user, mark_attendance=att,date=datetime.date.today()).save()
+        save_att = Attendance.objects.create(
+            student=request.user, mark_attendance=att, date=timezone.datetime.today().date()).save()
         return JsonResponse({'msg':'done'})
 
 def check_attendace(request):
-    date=datetime.date.today()
+    date = timezone.datetime.today().date()
     if Attendance.objects.filter(student=request.user,date=date).exists():
         return JsonResponse({
             'att':'True'
@@ -86,6 +87,7 @@ def leave_table(request):
         page_obj = p.page(1)
     except EmptyPage:
         page_obj = p.page(p.num_pages)
+        
     context = {'page_obj': page_obj, }
     
     return render(request, 'leave_table.html',context)
