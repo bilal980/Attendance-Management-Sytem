@@ -1,50 +1,41 @@
 {% extends 'base.html' %}
-{% block title %}AMS{% endblock title %}
 {% block content %}
 
 <div class="container-fluid ">
     <div class="col-md-12 shadow bg-white rounded">
         <br>
-
-        <h2 class="text-center">All Students Table</h2>
-        <div class="row" style="padding: 5px">
-            <div class="col-lg-4">
-                <input type="text" class="form-control name_search" placeholder="Search by Item Name ..."
-                    value="{{ search_value_name }}">
-            </div>
-            <div class="col-lg-2">
-                <button class="btn btn-primary search">Search</button>
-            </div>
-        </div>
+<a href="{% url 'add_attendance' student_id %}"><button type="button" id="back-product" class="btn btn-primary" >Add Attendance</button></a>
+        <h2 class="text-center">Attendance Table of {{ name }}</h2>
+       
         <hr>
         <div class="content-panel table-responsive">
             <table class="table table-striped table-bordered table-advance table-hover item-table">
                 <thead>
                     <tr>
+
                         <th class="text-center"> S.No</th>
-                        <th class="text-center"> Name</th>
-                        <th class="text-center">Phone</th>
-                        <th class="text-center">Email</th>
+                        <th class="text-center"> Date</th>
+                        <th class="text-center">Attendance</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody class="product-table-body text-center">
 
                     {% if page_obj %}
-                    {% for stu in page_obj.object_list %}
+                    {% for att in page_obj.object_list %}
                     <tr>
                         <td><a href="#">{{ forloop.counter}}</a></td>
-                        <td class="#">{{ stu.first_name }}</td>
-                        <td class="#">{{ stu.phone }}</td>
-                        <td class="#">{{ stu.email }}</td>
+                        <td class="#">{{ att.date }}</td>
+
+                        {% if att.mark_attendance == True %}
+                        <td class="#">Present</td>
+                        {% else %}
+                        <td class="#">Absent</td>
+                        {% endif %}
+
                         <td>
-                            
-                            <a href="{% url 'students_attendance' pk=stu.id %}"><button class="btn btn-success btn-xs" title="view attendance"><i
-                                        class="fa fa-eye"></i></button></a>
-                          <a href="{% url 'delete_student' pk=stu.id %}"><button class="btn btn-danger btn-xs delete" ><i class="fa fa-trash"></i></button></a>
-                            {% block include %}
-                            <a href=""></a>
-                            {% include 'components/delete_modal.html' with delete_link=q %}
-                            {% endblock include %}
+                            <a href="{% url 'update_attendance' att.id %}"><button class="btn btn-success btn-xs"><i class="fa fa-edit"></i></button></a>
+                            <a href="{% url 'delete_attendance' att.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button></a>
                         </td>
 
                     </tr>

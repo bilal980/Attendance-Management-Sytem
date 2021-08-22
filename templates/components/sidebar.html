@@ -40,7 +40,8 @@
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                   
-                    <!-- dashboard tab -->
+                  {% if  request.user.user_type == 1 %}
+                    <!-- student_home tab -->
                     <li class="nav-item">
                         <a href="{% url 'student_home' %}"
                         
@@ -51,7 +52,6 @@
                             </p>
                         </a>
                     </li>
-
                     <!-- Leave tab -->
                     <li class="nav-item">
                         <a href="{% url 'leave_table' %}" class="nav-link ">
@@ -66,8 +66,6 @@
                             <p>Report </p>
                         </a>
                     </li>
-                   
-
                     <!-- setting tab -->
                     <li class="nav-item">
                         <a href="{% url 'update_profile' %}" class="nav-link ">
@@ -75,7 +73,40 @@
                             <p>Setting</p>
                         </a>
                     </li>
-                    
+                    {% else %}
+                    <!-- Home -->
+                    <li class="nav-item">
+                        <a href="{% url 'admin_home' %}" class="nav-link">
+                            <i style="color: #00c0ef;" class="nav-icon fa fa-home"></i>
+                            <p class="">
+                                Home
+                            </p>
+                        </a>
+                    </li>
+                    <!-- all students -->
+                    <li class="nav-item">
+                        <a href="{% url 'total_student' %}" class="nav-link">
+                            <i style="color: #00c0ef;" class="nav-icon fas fa-user-graduate"></i>
+                            <p class="">
+                                Students
+                            </p>
+                        </a>
+                    </li>
+
+                    <!-- student_attendance -->
+                    <li class="nav-item">
+                        <a href="{% url 'total_student' %}" class="nav-link">
+                            <i style="color: #00c0ef;" class="nav-icon fas fa-file-signature"></i>
+                            <p class="">
+                                Attendance
+                            </p>
+                        </a>
+                    </li>
+
+
+                  {%endif %}
+
+
 
                     
             </nav>

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="col-md-6 shadow bg-white rounded">
+
+    <br>
+    <div class="content-panel">
+
+        <h3 class="text-center"> Attendance Update for {{student.first_name}}</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-ledger-form" action="{% url 'add_attendance' student.id %}" method="post"
+                autocomplete="off">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        {% csrf_token %}
+                        <br>
+                        <div class="form-check form-switch">
+                            <input name="attendance" class="form-check-input" type="checkbox" id="attendance">
+                            <label id='attendance_label' class="form-check-label" for="attendance">Absent</label>
+                        </div>
+                        <br>
+                        <label><strong>Attendance Date</strong></label>
+                        <input type="date" class="form-control mobile"  name="date" placeholder="dd-mm-yyyy" required><br>
+                        <button type="submit" id="save" class="btn btn-primary ledger-submit-btn" style="float: right"
+                            id="load">Update Attendance</button>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $('#attendance').click(function () {
+        if ($(this).prop("checked") == true) {
+            $('#attendance_label').text("Present. ")
+            $("#attendance_label").css("color", "green");
+        } else {
+            $('#attendance_label').text("Absent. ")
+            $("#attendance_label").css("color", "red");
+
+
+        }
+    })
+</script>
+{% endblock scripts %}

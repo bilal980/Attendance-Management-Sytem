@@ -6,7 +6,7 @@ class Attendance(models.Model):
 
     student=models.ForeignKey(MyUser,on_delete=models.CASCADE)
     mark_attendance=models.BooleanField(default=False)
-    date=models.DateTimeField(default=None)
+    date=models.DateField(default=None)
     def __str__(self):
         return self.student.first_name
 
