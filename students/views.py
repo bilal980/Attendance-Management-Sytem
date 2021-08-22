@@ -14,19 +14,15 @@ def student_home(request):
 @csrf_exempt
 def attendace(request):
     if request.method =="POST":
-        att = request.POST.get('attendance')
-        if att=='true':
+        att=False
+        if request.POST.get('attendance') == 'true':
             att=True
-        else:att=False
-        save_att = Attendance.objects.create(student=request.user, mark_attendance=att,date=datetime.date.today())
-        save_att.save()
+        save_att = Attendance.objects.create(student=request.user, mark_attendance=att,date=datetime.date.today()).save()
         return JsonResponse({'msg':'done'})
 
 def check_attendace(request):
-    user=request.user   
     date=datetime.date.today()
     if Attendance.objects.filter(student=request.user,date=date).exists():
-        print(Attendance.objects.get(student=user, date=date))
         return JsonResponse({
             'att':'True'
         })
@@ -82,7 +78,6 @@ def update_profile(request):
 def leave_table(request):
     user = request.user
     leaves = Leave.objects.all().filter(student=user).order_by('-id')
-    print(leaves)
     p = Paginator(leaves,7)
     page_number = request.GET.get('page')
     try:
