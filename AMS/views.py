@@ -11,8 +11,7 @@ from django.core.cache import cache
 def signin(request):
     if request.method == "POST":
         try:
-            email, password = request.POST.get(
-                'email'), request.POST.get('password')
+            email, password = request.POST.get('email'), request.POST.get('password')
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
@@ -57,7 +56,6 @@ def register(request):
                 messages.error(request, "Email Already Taken!")
                 return redirect(reverse_lazy('register'))
             new_user = MyUser.objects.create_user(email=email, password=pass1, phone=number, first_name=fname)
-            new_user.save()
             if request.FILES:
                 new_user.picture = request.FILES['img']
                 new_user.save()
