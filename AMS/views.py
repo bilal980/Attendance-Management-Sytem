@@ -45,7 +45,6 @@ def index(request):
 def register(request):
     try:
         if request.method == "POST":
-            print('e')
             fname = request.POST.get('fname')
             email = request.POST.get('email')
             number = request.POST.get('number')
@@ -54,16 +53,12 @@ def register(request):
             if pass1 != pass2:
                 messages.error(request, 'Password Not Match!')
                 return redirect(reverse_lazy('signin'))
-            print('g')
-            print(MyUser.objects.all().filter(email=email).exists())
             if MyUser.objects.all().filter(email=email).exists():
                 messages.error(request, "Email Already Taken!")
                 return redirect(reverse_lazy('register'))
-            print('s')
             new_user = MyUser.objects.create_user(email=email, password=pass1, phone=number, first_name=fname)
             new_user.save()
             if request.FILES:
-                print('e')
                 new_user.picture = request.FILES['img']
                 new_user.save()
             messages.success(
