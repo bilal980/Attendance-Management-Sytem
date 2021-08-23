@@ -63,6 +63,6 @@ def register(request):
                 request, 'Acount Created Successfully. Please Login')
             return redirect(reverse_lazy('signin'))
     except:
-        messages(request,'')
+        messages(request,'Error Occured!')
         return render(request, 'registration.html')
     return render(request, 'registration.html')
