@@ -14,4 +14,5 @@ urlpatterns = [
     path('report/<int:pk>',views.report,name='report'),
     path('fetch/record',views.fetch_record,name='fetch_record'),
     path('complete/record', views.complete_report, name='complete_report'),
+    path('grade/', views.grade, name='grade'),
 ]

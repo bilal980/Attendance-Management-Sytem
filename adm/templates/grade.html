@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid shadow bg-white ">
+    <div class="content-panel" style="height:400px; overflow: auto;">
+        <br>
+        <form action="{% url 'grade' %}" method="POST">
+            {% csrf_token %}
+            <div class="row justify-content-md-center">
+
+                <div class="custom-search-form col-md-4">
+
+                    <input type="hidden" name="stu" id="stu" value="{{student.id}}">
+
+                </div>
+                <div class="col-md-5">
+                    <label>Year</label>
+                    <select name="year" class="form-select" aria-label="Default select ">
+                        {% for i in year_ %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Student</label>
+                    <select name="stu" class="form-select" aria-label="Default select ">
+                        {% for i in student %}
+                        <option value="{{i.id}}">{{i.first_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Month</label>
+                    <select name="month" class="form-select" aria-label="Default select ">
+                        {% for i,j in month_.items %}
+                        <option value="{{j}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <a type="submit">
+                        <button type="submit" id="report_button" class="btn btn-primary">Get Record</button></a>
+
+                </div>
+
+
+            </div>
+        </form>
+        <br>
+        <h4 class="text-center"><strong>Complete Report</strong></h4><br>
+        
+        {% if selected_stu %}
+        <h3>Name : {{selected_stu.first_name}}</h3>
+        {% endif %}
+        <table class="table table-striped table-advance table-hover monthly-sales-table table-bordered">
+            <thead>
+                <tr>
+                    <th><i class=""></i>Month</th>
+                    <th><i class=""></i>Year</th>
+                    <th><i class=""></i>Grade</th>
+                </tr>
+            </thead>
+            <tbody class="daily-sales-tbody">
+                <td>{{month}}</td>
+                <td>{{year}}</td>
+                <td>{{grade}}</td>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

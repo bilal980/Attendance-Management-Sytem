@@ -1,4 +1,5 @@
 from django.core import paginator
+from django.db import models
 from django.db.models import Q
 from django.http import request
 from django.urls import reverse_lazy
@@ -217,3 +218,90 @@ def complete_report(request):
         'total_leave': total_leave,
     }
     return render(request, 'complete_report.html', context)
+
+
+def grade(request):
+    if request.method == 'POST':
+        month = int(request.POST.get('month'))
+        year = int(request.POST.get('year'))
+        student_selected = MyUser.objects.get(id=request.POST.get('stu'))
+        date = f'{year}-{month}-01'
+        if month == 12:
+            to_month = 1
+            to_year = year+1
+        else:
+            to_month = month+1
+            to_year = year
+        to_date = f'{to_year}-{to_month}-01'
+        from_date = timezone.datetime.strptime(date, "%Y-%m-%d").date()
+        to_date = timezone.datetime.strptime(to_date, "%Y-%m-%d").date()
+        # student = request.POST.get('student')
+        present = Attendance.objects.filter(
+            date__gte=from_date, date__lte=to_date, student=student_selected, mark_attendance=True).count()
+        try:
+            percentage = (present /30) *100
+
+            if percentage > 86:
+                grade = 'A'
+            elif percentage > 66:
+                grade = 'B'
+            elif percentage > 50:
+                grade = 'C'
+            elif percentage > 33:
+                grade = 'D'
+            else:
+                grade = 'F'
+        except ZeroDivisionError:
+            grade = 'F'
+
+       
+        year_list = [2000+i for i in range(1, 51)]
+        month_dict = {
+            'Jan': '01',
+            'Feb': '02',
+            'Mar': '03',
+            'Apr': '04',
+            'may': '05',
+            'Jun': '06',
+            'jul': '07',
+            'Aug': '08',
+            'Sep': '09',
+            'Oct': '10',
+            'Nov': '11',
+            'Dec': '12',
+        }
+        student = MyUser.objects.all().filter(user_type=1)
+        context = {
+            'selected_stu':student_selected,
+            'student':student,
+            'month': month,
+            'year': year,
+            'grade': grade,
+            'year_':year_list,
+            'month_':month_dict,
+
+        }
+        return render(request, 'grade.html', context)
+
+    year_list = [2000+i for i in range(1, 51)]
+    month_dict = {
+        'Jan': '01',
+        'Feb': '02',
+        'Mar': '03',
+        'Apr': '04',
+        'may': '05',
+        'Jun': '06',
+        'jul': '07',
+        'Aug': '08',
+        'Sep': '09',
+        'Oct': '10',
+        'Nov': '11',
+        'Dec': '12',
+    }
+    student = MyUser.objects.all().filter(user_type=1)
+    context = {
+        'student': student,
+        'year_': year_list,
+        'month_': month_dict,
+    }
+    return render(request, 'grade.html', context)

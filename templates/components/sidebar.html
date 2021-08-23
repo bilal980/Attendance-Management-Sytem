@@ -5,7 +5,7 @@
 <aside id="side_bar" class="main-sidebar sidebar-light-primary  elevation-4 ">
     <!-- Brand Logo -->
     <a href="" class="brand-link ">
-        <img src="{% static 'image/avatar3.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+        <img src="{% static 'image/ezi.jpg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light text-center">Attendance System</span>
     </a>
 
@@ -117,6 +117,15 @@
                             <i style="color: #00c0ef;" class="nav-icon fas fa-file-alt"></i>
                             <p class="">
                                 Report
+                            </p>
+                        </a>
+                    </li>
+                    <!-- Grades -->
+                    <li class="nav-item">
+                        <a href="{% url 'grade' %}" class="nav-link">
+                            <i style="color: #00c0ef;" class="nav-icon fas fa-award"></i>
+                            <p class="">
+                                Grades
                             </p>
                         </a>
                     </li>
