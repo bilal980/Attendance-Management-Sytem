@@ -56,6 +56,7 @@ def register(request):
                 messages.error(request, "Email Already Taken!")
                 return redirect(reverse_lazy('register'))
             new_user = MyUser.objects.create_user(email=email, password=pass1, phone=number, first_name=fname)
+            
             if request.FILES:
                 new_user.picture = request.FILES['img']
                 new_user.save()
