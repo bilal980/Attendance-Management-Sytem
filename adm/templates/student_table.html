@@ -25,6 +25,7 @@
                         <th class="text-center"> Name</th>
                         <th class="text-center">Phone</th>
                         <th class="text-center">Email</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody class="product-table-body text-center">
@@ -38,6 +39,8 @@
                         <td class="#">{{ stu.email }}</td>
                         <td>
                             
+                            <a href="{% url 'report' pk=stu.id %}"><button class="btn btn-success btn-xs" title="view attendance"><i
+                                        class="fa fa-file-excel"></i></button></a>
                             <a href="{% url 'students_attendance' pk=stu.id %}"><button class="btn btn-success btn-xs" title="view attendance"><i
                                         class="fa fa-eye"></i></button></a>
                           <a href="{% url 'delete_student' pk=stu.id %}"><button class="btn btn-danger btn-xs delete" ><i class="fa fa-trash"></i></button></a>

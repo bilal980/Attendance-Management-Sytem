@@ -11,4 +11,7 @@ urlpatterns = [
     path('delete/attendance/<int:pk>',views.delete_attendance,name='delete_attendance'),
     path('leave/approvel/', views.leave_approvel, name='leave_approvel'),
     path('leave/approvel/<int:pk>/<int:val>', views.leave_approvel_response, name='leave_approvel_response'),
+    path('report/<int:pk>',views.report,name='report'),
+    path('fetch/record',views.fetch_record,name='fetch_record'),
+    path('complete/record', views.complete_report, name='complete_report'),
 ]
