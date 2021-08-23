@@ -11,12 +11,9 @@ def signin(request):
     if request.method=="POST":
         try:
             email, password = request.POST.get('email'),request.POST.get('password')
-            print(email)
-            print(password)
             user=authenticate(request,email=email,password=password)
             if user is not None:
                 login(request,user)
-                print(request.user.user_type)
                 if request.user.user_type == 2:
                     messages.success(request,'Welcome Admin !')
                     return redirect(reverse_lazy('admin_home'))

@@ -2,6 +2,7 @@ from django.core import paginator
 from django.db import models
 from django.db.models import Q
 from django.http import request
+from django.http.response import Http404
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -15,20 +16,23 @@ from students.models import Attendance
 
 
 def admin_home(request):
-    all_student = MyUser.objects.all().filter(user_type=1).count()
-    present = Attendance.objects.all().filter(
-        mark_attendance=True, date=timezone.datetime.today()).count()
-    absent = Attendance.objects.all().filter(
-        mark_attendance=False, date=timezone.datetime.today()).count()
-    total_leave = Leave.objects.all().filter(
-        approve=True, date=timezone.datetime.today()).count()
-    context = {
-        'all_student': all_student,
-        'present': present,
-        'absent': absent,
-        'total_leave': total_leave,
-    }
-    return render(request, 'admin_home.html', context)
+    try:
+
+        all_student = MyUser.objects.all().filter(user_type=1).count()
+        present = Attendance.objects.all().filter( mark_attendance=True, date=timezone.datetime.today()).count()
+        absent = Attendance.objects.all().filter(
+            mark_attendance=False, date=timezone.datetime.today()).count()
+        total_leave = Leave.objects.all().filter(
+            approve=True, date=timezone.datetime.today()).count()
+        context = {
+            'all_student': all_student,
+            'present': present,
+            'absent': absent,
+            'total_leave': total_leave,
+        }
+        return render(request, 'admin_home.html', context)
+    except:
+        return Http404
 
 
 def total_student(request):
