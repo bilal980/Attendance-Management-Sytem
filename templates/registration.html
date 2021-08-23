@@ -20,6 +20,16 @@
 
         <div class="form-detail">
             <h2>REGISTERION FORM</h2>
+            
+            {% if messages %}
+            
+            {% for mess in messages %}
+                
+            
+            <p style="color: red;">{{mess}}</p>
+            {% endfor %}
+            {% endif %}
+                
         <form action="/register/" onsubmit="check_validity()"  enctype="multipart/form-data" method="post" id="register_form">
             {% csrf_token %}
 
@@ -27,7 +37,7 @@
             <input type="text" name="fname" id="first_name" class="input-text" placeholder="At least 3 Letters"
               minlength="3"  pattern="[a-zA-Z]*" title="At least 3 Letters(no digits)"  required/>
             
-            <label for="fname">Phone</label>
+            <label for="number">Phone</label>
             <input type="text" name="number" maxlength="16" minlength="9" id="number" class="input-text" placeholder="Mobile Number"
                 pattern="[0-9]*" title="Please Enter Valid Number" required/>
                 <label for="email">Your Email</label>

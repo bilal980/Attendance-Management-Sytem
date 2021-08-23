@@ -1,29 +1,32 @@
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.signals import user_logged_in
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate, login, logout
 from account.models import MyUser
 from django.core.cache import cache
 
+
 def signin(request):
-    if request.method=="POST":
+    if request.method == "POST":
         try:
-            email, password = request.POST.get('email'),request.POST.get('password')
-            user=authenticate(request,email=email,password=password)
+            email, password = request.POST.get(
+                'email'), request.POST.get('password')
+            user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(request,user)
+                login(request, user)
                 if request.user.user_type == 2:
-                    messages.success(request,'Welcome Admin !')
+                    messages.success(request, 'Welcome Admin !')
                     return redirect(reverse_lazy('admin_home'))
-                messages.success(request,'Welcome Student')
+                messages.success(request, 'Welcome Student')
                 return redirect(reverse_lazy('student_home'))
-            messages.error(request,'Invalid Credentials')
+            messages.error(request, 'Invalid Credentials')
         except:
-            messages.error(request,'Some Error Occured!')
+            messages.error(request, 'Some Error Occured!')
             return redirect(reverse_lazy('signin'))
-    return render(request,'login.html')
+    return render(request, 'login.html')
+
 
 def signout(request):
 
@@ -34,32 +37,39 @@ def signout(request):
     except:
         return redirect(reverse_lazy('signin'))
 
+
 def index(request):
-    return render(request,'index.html')
+    return render(request, 'index.html')
 
 
 def register(request):
     try:
-        if request.method=="POST":
+        if request.method == "POST":
+            print('e')
             fname = request.POST.get('fname')
             email = request.POST.get('email')
             number = request.POST.get('number')
-            pass1, pass2 = request.POST.get('pass1'), request.POST.get('pass2')
+            pass1 = request.POST.get('pass1')
+            pass2 = request.POST.get('pass2')
             if pass1 != pass2:
-                messages.error(request,'Password Not Match!')
+                messages.error(request, 'Password Not Match!')
                 return redirect(reverse_lazy('signin'))
-            if MyUser.objects.filter(email=email).exists():
-                messages.error(request,"Email Already Taken!")
+            print('g')
+            print(MyUser.objects.all().filter(email=email).exists())
+            if MyUser.objects.all().filter(email=email).exists():
+                messages.error(request, "Email Already Taken!")
                 return redirect(reverse_lazy('register'))
-            
-            new_user=MyUser.objects.create_user(email=email,password=pass1,phone=number,first_name=fname)
+            print('s')
+            new_user = MyUser.objects.create_user(email=email, password=pass1, phone=number, first_name=fname)
             new_user.save()
             if request.FILES:
-                profile = request.FILES['img']
-                new_user.picture = profile
+                print('e')
+                new_user.picture = request.FILES['img']
                 new_user.save()
-            messages.success(request,'Acount Created Successfully. Please Login')
+            messages.success(
+                request, 'Acount Created Successfully. Please Login')
             return redirect(reverse_lazy('signin'))
     except:
-        return render(request,'registration.html')
-    return render(request,'registration.html')
+        messages(request,'')
+        return render(request, 'registration.html')
+    return render(request, 'registration.html')
